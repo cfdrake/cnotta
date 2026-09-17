@@ -10,18 +10,20 @@ import SwiftData
 
 struct ProjectsList: View {
     
+    @StateObject private var navigation = AppNavigator()
+    
     @Environment(\.modelContext) var modelContext
     @Query(sort: [SortDescriptor(\Project.modified, order: .reverse)]) var projects: [Project]
     @State private var isPresentingAddProjectForm = false
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigation.path) {
             Group {
                 if projects.count > 0 {
                     ScrollView {
                         ForEach(projects) { project in
-                            NavigationLink(value: project) {
-                                ProjectListItem(project: project)
+                            NavigationLink(value: AppDestination.detail(project: project)) {
+                                ProjectListRow(project: project)
                                     .padding([.top, .bottom], 4)
                                     .padding([.leading, .trailing], 16)
                             }
@@ -37,12 +39,17 @@ struct ProjectsList: View {
                 }
             }
             .navigationTitle(Text("My Projects"))
-            .navigationDestination(for: Project.self) { project in
-                ProjectDetail(
-                    project: project,
-                    idleTimerController: UIApplication.shared,
-                    haptics: UIFeedbackGeneratorHapticsProvider()
-                )
+            .environmentObject(navigation)
+            .navigationDestination(for: AppDestination.self) { destination in
+                switch destination {
+                case .detail(project: let project):
+                    ProjectDetail(
+                        project: project,
+                        idleTimerController: UIApplication.shared,
+                        haptics: UIFeedbackGeneratorHapticsProvider()
+                    )
+                    .environmentObject(navigation)
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

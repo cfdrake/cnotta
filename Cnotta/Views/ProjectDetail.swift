@@ -14,7 +14,8 @@ protocol HapticsProvider {
 }
 
 struct ProjectDetail: View {
-    
+
+    @EnvironmentObject var navigation: AppNavigator
     @Environment(\.dismiss) var dismiss
     let project: Project
     let idleTimerController: IdleTimerController?
@@ -94,7 +95,10 @@ struct ProjectDetail: View {
             idleTimerController?.isIdleTimerDisabled = false
         }
         .sheet(isPresented: $isPresentingEditForm) {
-            EditProjectForm(project: project)
+            EditProjectForm(project: project, onDelete: {
+                navigation.navigateToRoot()
+            })
+            .environmentObject(navigation)
         }
     }
 }

@@ -21,6 +21,7 @@ struct EditProjectForm: View {
     @State private var isPresentingAlertDialog: Bool = false
     
     let project: Project
+    let onDelete: (() -> Void)?
     
     private var createDateString: String {
         let formatter = DateFormatter()
@@ -28,10 +29,11 @@ struct EditProjectForm: View {
         return formatter.string(from: project.created)
     }
     
-    init(project: Project) {
+    init(project: Project, onDelete: (() -> Void)? = nil) {
         self.project = project
         self.name = project.name
         self.color = Color.fromHexCode(project.color)
+        self.onDelete = onDelete
     }
     
     var body: some View {
@@ -89,6 +91,7 @@ struct EditProjectForm: View {
     private func deleteProject() {
         modelContext.delete(project)
         dismiss()
+        onDelete?()
     }
     
     private func updateProject() {

@@ -1,5 +1,5 @@
 //
-//  ProjectListItem.swift
+//  ProjectListRow.swift
 //  Cnotta
 //
 //  Created by Colin Drake on 9/17/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProjectListItem: View {
+struct ProjectListRow: View {
     
     let project: Project
     
@@ -47,5 +47,5 @@ struct ProjectListItem: View {
         color: 0xcc0000
     )
     
-    ProjectListItem(project: project)
+    ProjectListRow(project: project)
 }
