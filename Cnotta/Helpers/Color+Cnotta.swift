@@ -13,12 +13,12 @@ extension Color {
     
     static var projectColors: [Color] {
         return [
-            Color.fromHexCode(0xf5969b),
-            Color.fromHexCode(0xf49cc3),
-            Color.fromHexCode(0xb08bc0),
-            Color.fromHexCode(0x7da7d9),
-            Color.fromHexCode(0x72c593),
-            Color.fromHexCode(0xa4d390)
+            Color("Hibiscus-4"),
+            Color("Ibis-4"),
+            Color("Kohlrabi-4"),
+            Color("Neptune-4"),
+            Color("Pine-4"),
+            Color("Quetzal-4"),
         ]
     }
     
