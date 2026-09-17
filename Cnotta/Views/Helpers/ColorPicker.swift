@@ -17,7 +17,7 @@ struct ColorPicker: View {
             ForEach(colors, id: \.hashValue) { color in
                 ZStack {
                     Circle()
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color("ColorPickerBackground"))
                         .frame(width: 34, height: 34)
                         .opacity(color == selectedColor ? 1 : 0)
                     Rectangle()
@@ -36,10 +36,8 @@ struct ColorPicker: View {
 }
 
 #Preview {
-    @Previewable @State var selectedColor = Color.red
-    let colors = [
-        Color.red, Color.blue, Color.green, Color.black
-    ]
+    @Previewable @State var selectedColor = Color.projectColors.first!
+    let colors = Color.projectColors
     
     ColorPicker(selectedColor: $selectedColor, colors: colors)
 }

@@ -11,6 +11,7 @@ struct ProjectDetail: View {
     
     let project: Project
     let idleTimerController: IdleTimerController
+    private let haptics = UIImpactFeedbackGenerator(style: .heavy)
     
     var body: some View {
         VStack {
@@ -19,9 +20,9 @@ struct ProjectDetail: View {
                 .font(.largeTitle)
                 .fontWeight(.black)
                 .foregroundStyle(.white)
-                .padding([.bottom], 16)
+                .padding([.bottom], 4)
             Text("\(project.count)")
-                .font(.title)
+                .font(Font.system(size: 128))
                 .fontWeight(.regular)
                 .foregroundStyle(.white)
                 .padding([.bottom], 32)
@@ -29,28 +30,37 @@ struct ProjectDetail: View {
             HStack {
                 Button {
                     project.updateCount(by: -1)
+                    haptics.impactOccurred(intensity: 1.0)
                 } label: {
                     Text("-")
                         .foregroundStyle(.white)
                         .font(.largeTitle)
                         .fontWeight(.black)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
+                .disabled(project.count == 0)
+                .simultaneousGesture(
+                    LongPressGesture().onEnded { _ in
+                        project.setCount(0)
+                    }
+                )
                 .frame(width: 120, height: 100)
-                .background(.white.opacity(0.2))
-                .cornerRadius(32)
+                .glassEffect(.regular.interactive())
+                Spacer().frame(width: 64)
                 Button {
                     project.updateCount(by: 1)
+                    haptics.impactOccurred(intensity: 1.0)
                 } label: {
                     Text("+")
                         .foregroundStyle(.white)
                         .font(.largeTitle)
                         .fontWeight(.black)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .frame(width: 120, height: 100)
-                .background(.white.opacity(0.2))
-                .cornerRadius(32)
+                .glassEffect(.regular.interactive())
             }
-            .padding([.bottom], 48)
+            .padding([.bottom], 32)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.fromHexCode(project.color))

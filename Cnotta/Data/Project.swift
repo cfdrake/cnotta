@@ -55,5 +55,21 @@ final class Project: Identifiable {
         }
         
         count += value
+        updateModified()
+    }
+    
+    func setCount(_ value: Int) {
+        guard count >= 0 else {
+            return
+        }
+        
+        count = value
+        updateModified()
+    }
+    
+    // MARK: - Private
+    
+    private func updateModified() {
+        modified = Date()
     }
 }

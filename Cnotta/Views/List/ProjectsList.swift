@@ -11,7 +11,7 @@ import SwiftData
 struct ProjectsList: View {
     
     @Environment(\.modelContext) var modelContext
-    @Query(sort: \Project.modified) var projects: [Project]
+    @Query(sort: [SortDescriptor(\Project.modified, order: .reverse)]) var projects: [Project]
     @State private var isPresentingAddProjectForm = false
     
     var body: some View {
