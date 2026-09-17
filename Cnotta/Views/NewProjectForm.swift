@@ -21,7 +21,7 @@ struct NewProjectForm: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     @State private var name: String = ""
-    @State private var color = Color.projectColors.first!
+    @State private var color = Color.projectColors.randomElement()!
     @FocusState private var focusedField: FocusedField?
     
     var body: some View {
