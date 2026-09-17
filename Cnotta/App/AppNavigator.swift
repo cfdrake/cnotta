@@ -10,6 +10,7 @@ import Combine
 
 enum AppDestination: Hashable {
     case detail(project: Project)
+    case adminPanel
 }
 
 @MainActor

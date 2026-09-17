@@ -33,6 +33,12 @@ struct ProjectsList: View {
                         }
                         .onDelete(perform: deleteProjects)
                     }
+                    #if DEBUG
+                    // Long press for two seconds in debug build to trigger admin/debug panel.
+                    .simultaneousGesture(LongPressGesture(minimumDuration: 2).onEnded { _ in
+                        navigation.navigate(to: .adminPanel)
+                    })
+                    #endif
                 } else {
                     Group {
                         Spacer()
@@ -52,6 +58,8 @@ struct ProjectsList: View {
                         haptics: HapticsManager()
                     )
                     .environmentObject(navigation)
+                case .adminPanel:
+                    AdminPanel()
                 }
             }
             .toolbar {
