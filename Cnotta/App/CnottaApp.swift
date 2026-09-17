@@ -10,10 +10,12 @@ import SwiftData
 
 @main
 struct CnottaApp: App {
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Project.self,
         ])
+        
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -25,7 +27,7 @@ struct CnottaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ProjectsList()
         }
         .modelContainer(sharedModelContainer)
     }
