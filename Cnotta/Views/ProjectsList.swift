@@ -17,6 +17,8 @@ struct ProjectsList: View {
     @State private var isPresentingAddProjectForm = false
     @State private var isPresentingOnboarding = OnboardingManager.shared.shouldShowOnboarding()
     
+    // TODO: CFD: ^ refactor the above to use @AppStorage.
+    
     var body: some View {
         NavigationStack(path: $navigation.path) {
             Group {
