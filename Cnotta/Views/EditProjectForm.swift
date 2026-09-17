@@ -11,9 +11,6 @@ import SwiftData
 struct EditProjectForm: View {
     
     private var colors = Color.projectColors
-    private var projectNamePlaceholders = [
-        "Sweater", "Beanie", "Scarf", "Sock"
-    ]
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     @State private var name: String

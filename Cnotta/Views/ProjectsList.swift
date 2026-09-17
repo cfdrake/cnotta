@@ -15,6 +15,7 @@ struct ProjectsList: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: [SortDescriptor(\Project.modified, order: .reverse)]) var projects: [Project]
     @State private var isPresentingAddProjectForm = false
+    @State private var isPresentingOnboarding = OnboardingManager.shared.shouldShowOnboarding()
     
     var body: some View {
         NavigationStack(path: $navigation.path) {
@@ -65,6 +66,11 @@ struct ProjectsList: View {
         .sheet(isPresented: $isPresentingAddProjectForm) {
             NewProjectForm()
         }
+        .fullScreenCover(isPresented: $isPresentingOnboarding, onDismiss: {
+            OnboardingManager.shared.setHasSeenOnboarding(true)
+        }, content: {
+            OnboardingCarousel()
+        })
     }
     
     private func deleteProjects(at offsets: IndexSet) {

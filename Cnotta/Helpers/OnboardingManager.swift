@@ -9,6 +9,8 @@ import Foundation
 
 final class OnboardingManager {
     
+    static let shared = OnboardingManager()
+    
     private let onboardingKey = "hasSeenOnboarding"
     
     func shouldShowOnboarding() -> Bool {
