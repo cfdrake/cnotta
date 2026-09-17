@@ -29,26 +29,34 @@ struct ProjectsList: View {
                         .onDelete(perform: deleteProjects)
                     }
                 } else {
-                    Spacer()
-                    ContentUnavailableView("No projects!", image: "exclamationmark.circle", description: Text("Create one?"))
-                    Spacer()
+                    Group {
+                        Spacer()
+                        ContentUnavailableView("No projects", image: "exclamationmark.circle", description: Text("Tap the plus button to get started!"))
+                        Spacer()
+                    }
                 }
             }
             .navigationTitle(Text("Projects"))
-            .toolbar {
-                Button(role: .confirm, action: {
-                    isPresentingAddProjectForm = true
-                }) {
-                    Image(systemName: "plus")
-                }
-                .accessibilityHint("Create a new project")
-            }
             .navigationDestination(for: Project.self) { project in
-                ProjectDetail(project: project, idleTimerController: UIApplication.shared)
+                ProjectDetail(
+                    project: project,
+                    idleTimerController: UIApplication.shared,
+                    haptics: UIFeedbackGeneratorHapticsProvider()
+                )
             }
-            .sheet(isPresented: $isPresentingAddProjectForm) {
-                NewProjectForm()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(role: .confirm, action: {
+                        isPresentingAddProjectForm = true
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityHint("Create a new project")
+                }
             }
+        }
+        .sheet(isPresented: $isPresentingAddProjectForm) {
+            NewProjectForm()
         }
     }
     

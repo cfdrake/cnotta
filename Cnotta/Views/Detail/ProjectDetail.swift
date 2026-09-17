@@ -7,11 +7,22 @@
 
 import SwiftUI
 
+/// Represents a type that can control a "buzz" haptic feedback to the phone.
+protocol HapticsProvider {
+    func buzz()
+}
+
 struct ProjectDetail: View {
     
     let project: Project
-    let idleTimerController: IdleTimerController
-    private let haptics = UIImpactFeedbackGenerator(style: .heavy)
+    let idleTimerController: IdleTimerController?
+    let haptics: HapticsProvider?
+    
+    init(project: Project, idleTimerController: IdleTimerController? = nil, haptics: HapticsProvider? = nil) {
+        self.project = project
+        self.idleTimerController = idleTimerController
+        self.haptics = haptics
+    }
     
     var body: some View {
         VStack {
@@ -30,7 +41,7 @@ struct ProjectDetail: View {
             HStack {
                 Button {
                     project.updateCount(by: -1)
-                    haptics.impactOccurred(intensity: 1.0)
+                    haptics?.buzz()
                 } label: {
                     Text("-")
                         .foregroundStyle(.white)
@@ -42,6 +53,7 @@ struct ProjectDetail: View {
                 .simultaneousGesture(
                     LongPressGesture().onEnded { _ in
                         project.setCount(0)
+                        haptics?.buzz()
                     }
                 )
                 .frame(width: 120, height: 100)
@@ -49,7 +61,7 @@ struct ProjectDetail: View {
                 Spacer().frame(width: 64)
                 Button {
                     project.updateCount(by: 1)
-                    haptics.impactOccurred(intensity: 1.0)
+                    haptics?.buzz()
                 } label: {
                     Text("+")
                         .foregroundStyle(.white)
@@ -65,10 +77,10 @@ struct ProjectDetail: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.fromHexCode(project.color))
         .onAppear {
-            idleTimerController.isIdleTimerDisabled = true
+            idleTimerController?.isIdleTimerDisabled = true
         }
         .onDisappear {
-            idleTimerController.isIdleTimerDisabled = false
+            idleTimerController?.isIdleTimerDisabled = false
         }
     }
 }
@@ -83,6 +95,6 @@ struct ProjectDetail_Previews: PreviewProvider {
     static var previews: some View {
         let project = Project(name: "Project 1", color: 0xff0000)
 
-        ProjectDetail(project: project, idleTimerController: MockUIApplication())
+        ProjectDetail(project: project)
     }
 }
