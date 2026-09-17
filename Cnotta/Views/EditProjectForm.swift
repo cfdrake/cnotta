@@ -21,6 +21,7 @@ struct EditProjectForm: View {
     @State private var isPresentingAlertDialog: Bool = false
     
     let project: Project
+    let initialName: String
     let onDelete: (() -> Void)?
     
     private var createDateString: String {
@@ -32,6 +33,7 @@ struct EditProjectForm: View {
     init(project: Project, onDelete: (() -> Void)? = nil) {
         self.project = project
         self.name = project.name
+        self.initialName = project.name
         self.color = Color.fromHexCode(project.color)
         self.onDelete = onDelete
     }
@@ -40,7 +42,7 @@ struct EditProjectForm: View {
         NavigationStack {
             Form {
                 Section("Name") {
-                    TextField(projectNamePlaceholders.randomElement() ?? "", text: $name)
+                    TextField(initialName, text: $name)
                         .accessibilityLabel(Text("Project name"))
                 }
                 Section("Color") {
@@ -54,7 +56,7 @@ struct EditProjectForm: View {
                 }
                 .foregroundStyle(.red)
             }
-            .alert("Are you sure you want to delete \"\(name)\"?", isPresented: $isPresentingAlertDialog, actions: {
+            .alert("Are you sure you want to delete this project?", isPresented: $isPresentingAlertDialog, actions: {
                 Button(role: .destructive, action: {
                     deleteProject()
                 }, label: {
@@ -66,7 +68,7 @@ struct EditProjectForm: View {
                     Text("Cancel")
                 })
             })
-            .navigationTitle(Text(name))
+            .navigationTitle("Edit Project")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button(role: .destructive) {

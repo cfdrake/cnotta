@@ -33,7 +33,7 @@ struct ProjectsList: View {
                 } else {
                     Group {
                         Spacer()
-                        ContentUnavailableView("No projects", image: "exclamationmark.circle", description: Text("Tap the plus button to get started!"))
+                        ContentUnavailableView("Nothing yet!", image: "exclamationmark.circle", description: Text("Why not create your first project?"))
                         Spacer()
                     }
                 }
