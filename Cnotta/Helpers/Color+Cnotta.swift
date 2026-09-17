@@ -13,8 +13,12 @@ extension Color {
     
     static var projectColors: [Color] {
         return [
-            Color(red: 1.0, green: 0, blue: 0),
-            Color(red: 0, green: 0, blue: 1.0)
+            Color.fromHexCode(0xf5969b),
+            Color.fromHexCode(0xf49cc3),
+            Color.fromHexCode(0xb08bc0),
+            Color.fromHexCode(0x7da7d9),
+            Color.fromHexCode(0x72c593),
+            Color.fromHexCode(0xa4d390)
         ]
     }
     

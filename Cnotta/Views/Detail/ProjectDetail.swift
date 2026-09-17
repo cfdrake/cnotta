@@ -14,29 +14,43 @@ struct ProjectDetail: View {
     
     var body: some View {
         VStack {
+            Spacer()
             Text(project.name)
                 .font(.largeTitle)
                 .fontWeight(.black)
                 .foregroundStyle(.white)
                 .padding([.bottom], 16)
+            Text("\(project.count)")
+                .font(.title)
+                .fontWeight(.regular)
+                .foregroundStyle(.white)
+                .padding([.bottom], 32)
+            Spacer()
             HStack {
                 Button {
                     project.updateCount(by: -1)
                 } label: {
                     Text("-")
+                        .foregroundStyle(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.black)
                 }
-                .padding(64)
-                .background(.white)
+                .frame(width: 120, height: 100)
+                .background(.white.opacity(0.2))
                 .cornerRadius(32)
                 Button {
                     project.updateCount(by: 1)
                 } label: {
                     Text("+")
+                        .foregroundStyle(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.black)
                 }
-                .padding(64)
-                .background(.white)
+                .frame(width: 120, height: 100)
+                .background(.white.opacity(0.2))
                 .cornerRadius(32)
             }
+            .padding([.bottom], 48)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.fromHexCode(project.color))
