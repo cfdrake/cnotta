@@ -36,12 +36,7 @@ extension Color {
         var green: CGFloat = 0
         var blue: CGFloat = 0
         var alpha: CGFloat = 0
-        
-#if canImport(UIKit)
-        var color: UIColor { UIColor(self) }
-#elseif canImport(AppKit)
-        var color: NSColor { NSColor(self) }
-#endif
+        let color = UIColor(self)
 
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         

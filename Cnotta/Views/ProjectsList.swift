@@ -45,8 +45,8 @@ struct ProjectsList: View {
                 case .detail(project: let project):
                     ProjectDetail(
                         project: project,
-                        idleTimerController: UIApplication.shared,
-                        haptics: UIFeedbackGeneratorHapticsProvider()
+                        idleTimerController: IdleTimerManager(),
+                        haptics: HapticsManager()
                     )
                     .environmentObject(navigation)
                 }

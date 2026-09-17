@@ -8,21 +8,16 @@
 import SwiftUI
 import SwiftData
 
-/// Represents a type that can control a "buzz" haptic feedback to the phone.
-protocol HapticsProvider {
-    func buzz()
-}
-
 struct ProjectDetail: View {
 
     @EnvironmentObject var navigation: AppNavigator
     @Environment(\.dismiss) var dismiss
     let project: Project
-    let idleTimerController: IdleTimerController?
+    let idleTimerController: IdleTimerProvider?
     let haptics: HapticsProvider?
     @State var isPresentingEditForm: Bool = false
     
-    init(project: Project, idleTimerController: IdleTimerController? = nil, haptics: HapticsProvider? = nil) {
+    init(project: Project, idleTimerController: IdleTimerProvider? = nil, haptics: HapticsProvider? = nil) {
         self.project = project
         self.idleTimerController = idleTimerController
         self.haptics = haptics
@@ -45,7 +40,7 @@ struct ProjectDetail: View {
             HStack {
                 Button {
                     project.updateCount(by: -1)
-                    haptics?.buzz()
+                    haptics?.generateHapticEvent()
                 } label: {
                     Text("-")
                         .foregroundStyle(.white)
@@ -57,7 +52,7 @@ struct ProjectDetail: View {
                 .simultaneousGesture(
                     LongPressGesture().onEnded { _ in
                         project.setCount(0)
-                        haptics?.buzz()
+                        haptics?.generateHapticEvent()
                     }
                 )
                 .frame(width: 120, height: 100)
@@ -65,7 +60,7 @@ struct ProjectDetail: View {
                 Spacer().frame(width: 64)
                 Button {
                     project.updateCount(by: 1)
-                    haptics?.buzz()
+                    haptics?.generateHapticEvent()
                 } label: {
                     Text("+")
                         .foregroundStyle(.white)
@@ -103,18 +98,10 @@ struct ProjectDetail: View {
     }
 }
 
-struct ProjectDetail_Previews: PreviewProvider {
+#Preview {
+    let project = Project(name: "Project 1", color: 0xff0000)
 
-    /// Mock idle timer (i.e. UIApplication) for Previews.
-    final class MockUIApplication: IdleTimerController {
-        var isIdleTimerDisabled: Bool = true
-    }
-    
-    static var previews: some View {
-        let project = Project(name: "Project 1", color: 0xff0000)
-
-        NavigationStack {
-            ProjectDetail(project: project)
-        }
+    NavigationStack {
+        ProjectDetail(project: project)
     }
 }

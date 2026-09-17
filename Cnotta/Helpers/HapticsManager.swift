@@ -7,11 +7,15 @@
 
 import UIKit
 
-final class UIFeedbackGeneratorHapticsProvider: HapticsProvider {
+protocol HapticsProvider {
+    func generateHapticEvent()
+}
+
+final class HapticsManager: HapticsProvider {
     
     private let generator = UIImpactFeedbackGenerator(style: .heavy)
     
-    func buzz() {
+    func generateHapticEvent() {
         generator.impactOccurred(intensity: 1.0)
     }
 }
