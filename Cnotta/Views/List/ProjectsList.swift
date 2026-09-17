@@ -36,7 +36,7 @@ struct ProjectsList: View {
                     }
                 }
             }
-            .navigationTitle(Text("Projects"))
+            .navigationTitle(Text("My Projects"))
             .navigationDestination(for: Project.self) { project in
                 ProjectDetail(
                     project: project,
@@ -77,10 +77,10 @@ struct ProjectsList: View {
         Project(name: "Sweater", color: 0xff0000),
         Project(name: "Beanie", color: 0x0000ff)
     ]
-    //
-    //    for project in projects {
-    //        container.mainContext.insert(project)
-    //    }
+    
+    for project in projects {
+        container.mainContext.insert(project)
+    }
     
     return ProjectsList()
         .modelContainer(container)
