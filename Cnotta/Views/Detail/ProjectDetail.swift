@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 /// Represents a type that can control a "buzz" haptic feedback to the phone.
 protocol HapticsProvider {
@@ -14,9 +15,11 @@ protocol HapticsProvider {
 
 struct ProjectDetail: View {
     
+    @Environment(\.dismiss) var dismiss
     let project: Project
     let idleTimerController: IdleTimerController?
     let haptics: HapticsProvider?
+    @State var isPresentingEditForm: Bool = false
     
     init(project: Project, idleTimerController: IdleTimerController? = nil, haptics: HapticsProvider? = nil) {
         self.project = project
@@ -76,11 +79,22 @@ struct ProjectDetail: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.fromHexCode(project.color))
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Project settings", systemImage: "gear") {
+                    isPresentingEditForm = true
+                }
+                .foregroundStyle(.white)
+            }
+        }
         .onAppear {
             idleTimerController?.isIdleTimerDisabled = true
         }
         .onDisappear {
             idleTimerController?.isIdleTimerDisabled = false
+        }
+        .sheet(isPresented: $isPresentingEditForm) {
+            EditProjectForm(project: project)
         }
     }
 }
@@ -95,6 +109,8 @@ struct ProjectDetail_Previews: PreviewProvider {
     static var previews: some View {
         let project = Project(name: "Project 1", color: 0xff0000)
 
-        ProjectDetail(project: project)
+        NavigationStack {
+            ProjectDetail(project: project)
+        }
     }
 }
