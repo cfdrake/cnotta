@@ -14,6 +14,7 @@ Knitting row counter for iOS, written with SwiftUI and SwiftData.
 
 - Create any number of projects with their own counter
 - Large `+` and `-` buttons with haptic feedback to count rows
+- Keeps screen on when in counting view
 - Long-press `-` to reset counter
 
 ## License
