@@ -41,7 +41,7 @@ extension Color {
 
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         
-        return (Int(red) << 16) | (Int(green) << 8) | Int(blue)
+        return (Int(red * 255) << 16) | (Int(green * 255) << 8) | Int(blue * 255)
     }
     
 }
